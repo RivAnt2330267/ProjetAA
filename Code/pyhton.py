@@ -1,9 +1,11 @@
-import Adafruit_DHT
+import bme280
+import smbus2
 import sqlite3
 import time
 from datetime import datetime
 import mysql.connector
 SENSOR = Adafruit_DHT.DHT22
+PIN = 4
 
 # Function to read temperature from the temperature sensor
 def read_temperature():
@@ -57,5 +59,54 @@ def main():
         print("Program terminated")
     finally:
         connect.close()
+
+import bme280
+import smbus2
+import RPi.GPIO as GPIO
+from time import sleep
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(27,GPIO.OUT)
+GPIO.setup(17,GPIO.OUT)
+
+
+port = 1
+address = 0x76 
+bus = smbus2.SMBus(port)
+
+bme280.load_calibration_params(bus,address)
+
+def verifAmbient(temp_min, temp_max) :
+    if ambient_temperature < temp_min:
+        GPIO.output(27, GPIO.HIGH)
+        GPIO.output(17, GPIO.LOW)
+    elif ambient_temperature > temp_max :
+        GPIO.output(27, GPIO.HIGH)
+        GPIO.output(17, GPIO.LOW)
+    else :
+        GPIO.output(27, GPIO.LOW)
+        GPIO.output(17, GPIO.LOW)
+
+    
+    
+
+verif = False
+while verif == False :
+    choix = input('Quelle plantation souhaitez-vous optimiser ?')
+    if(choix == 'TOMATE' or choix == 'CAROTTE' or choix == 'CONCOMBRE') :
+        verif = True
+
+while True:
+    bme280_data = bme280.sample(bus,address)
+    ambient_temperature = bme280_data.temperature
+    if choix == 'TOMATE' :
+       verifAmbient(20, 25)
+    elif choix == 'CAROTTE':
+        verifAmbient(16, 23)
+    elif choix == 'CONCOMBRE' :
+        verifAmbient(18, 26)
+    print( ambient_temperature)
+    sleep(1)
+
 
 
