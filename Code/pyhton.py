@@ -5,7 +5,6 @@ import RPi.GPIO as GPIO
 import time
 from datetime import datetime
 import mysql.connector
-SENSOR = Adafruit_DHT.DHT22
 PIN = 4
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(27,GPIO.OUT)
@@ -18,6 +17,8 @@ bus = smbus2.SMBus(port)
 bme280.load_calibration_params(bus,address)
 
 def read_temperature():
+    
+    bme280_data = bme280.sample(bus,address)
     ambient_temperature = bme280_data.temperature
     if ambient_temperature is not None:
         return ambient_temperature
@@ -29,16 +30,6 @@ def connect_to_db():
     connect = mysql.connector.connect('cake_cms.sql')
     return connect
 
-def create_table(connect):
-    cursor = connect.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS temperature (
-            donneeId INTEGER PRIMARY KEY AUTOINCREMENT,
-            time TEXT,
-            temperature REAL
-        )
-    ''')
-    connect.commit()
 
 def insert_temperature(connect, temperature):
     cursor = connect.cursor()
@@ -66,7 +57,7 @@ def main():
         connect.close()
 
 
-""""import bme280
+import bme280
 
 import smbus2
 import RPi.GPIO as GPIO
