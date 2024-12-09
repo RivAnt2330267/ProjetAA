@@ -1,27 +1,34 @@
 import bme280
 import smbus2
 import sqlite3
+import RPi.GPIO as GPIO
 import time
 from datetime import datetime
 import mysql.connector
 SENSOR = Adafruit_DHT.DHT22
 PIN = 4
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(27,GPIO.OUT)
+GPIO.setup(17,GPIO.OUT)
 
-# Function to read temperature from the temperature sensor
+port = 1
+address = 0x76 
+bus = smbus2.SMBus(port)
+
+bme280.load_calibration_params(bus,address)
+
 def read_temperature():
-    humidity, temperature = Adafruit_DHT.read_retry(SENSOR, PIN)
-    if temperature is not None:
-        return temperature
+    ambient_temperature = bme280_data.temperature
+    if ambient_temperature is not None:
+        return ambient_temperature
     else:
         print("Failed to get reading. Try again!")
         return None
 
-# Function to connect to SQLite database
 def connect_to_db():
     connect = mysql.connector.connect('cake_cms.sql')
     return connect
 
-# Function to create the table if it doesn't exist
 def create_table(connect):
     cursor = connect.cursor()
     cursor.execute('''
@@ -33,7 +40,6 @@ def create_table(connect):
     ''')
     connect.commit()
 
-# Function to insert temperature data into the database
 def insert_temperature(connect, temperature):
     cursor = connect.cursor()
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -43,7 +49,6 @@ def insert_temperature(connect, temperature):
     ''', (time, temperature))
     connect.commit()
 
-# Main function to continuously read temperature and store it
 def main():
     connect = connect_to_db()
     create_table(connect)
@@ -54,13 +59,15 @@ def main():
             if temperature is not None:
                 insert_temperature(connect, temperature)
                 print(f"Inserted: {temperature}°C at {datetime.now()}")
-            time.sleep(60)  # Wait for 1 minute before the next reading
+            time.sleep(60) 
     except KeyboardInterrupt:
         print("Program terminated")
     finally:
         connect.close()
 
-import bme280
+
+""""import bme280
+
 import smbus2
 import RPi.GPIO as GPIO
 from time import sleep
@@ -106,7 +113,7 @@ while True:
     elif choix == 'CONCOMBRE' :
         verifAmbient(18, 26)
     print( ambient_temperature)
-    sleep(1)
+    sleep(1)"""
 
 
 
