@@ -61,7 +61,6 @@ class UtilisateurTable extends Table
             ->maxLength('prenomUtilisateur', 50)
             ->requirePresence('prenomUtilisateur', 'create')
             ->notEmptyString('prenomUtilisateur');
-            
         $validator
             ->requirePresence('mdp', 'create')
             ->notEmptyString('mdp');
@@ -76,8 +75,6 @@ class UtilisateurTable extends Table
             ->maxLength('email', 100)
             ->requirePresence('email', 'email')
             ->notEmptyString('email');
-
-
 
         return $validator;
     }

@@ -47,7 +47,11 @@ return [
             'username' => 'root',
             'password' => '',
 
+<<<<<<< HEAD
             'database' => 'stationsolaire',
+=======
+            'database' => 'cake_cms',
+>>>>>>> DEV
             /*
              * If not using the default 'public' schema with the PostgreSQL driver
              * set it here.

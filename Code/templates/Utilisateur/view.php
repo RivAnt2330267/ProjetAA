@@ -8,6 +8,7 @@
     <aside class="column">
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
+<<<<<<< HEAD
             <?= $this->Html->link(__('Edit Users'), ['action' => 'edit', $users->IdUsers], ['class' => 'side-nav-item']) ?>
             <?= $this->Form->postLink(__('Delete Users'), ['action' => 'delete', $users->IdUsers], ['confirm' => __('Are you sure you want to delete # {0}?', $users->IdUsers), 'class' => 'side-nav-item']) ?>
             <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
