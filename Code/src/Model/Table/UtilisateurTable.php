@@ -37,9 +37,9 @@ class UtilisateurTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('utilisateur');
+        $this->setTable('users');
         $this->setDisplayField('nomUtilisateur');
-        $this->setPrimaryKey('noUtilisateur');
+        $this->setPrimaryKey('idUtilisateur');
     }
 
     /**
@@ -61,13 +61,7 @@ class UtilisateurTable extends Table
             ->maxLength('prenomUtilisateur', 50)
             ->requirePresence('prenomUtilisateur', 'create')
             ->notEmptyString('prenomUtilisateur');
-
-        $validator
-            ->scalar('courriel')
-            ->maxLength('courriel', 100)
-            ->requirePresence('courriel', 'create')
-            ->notEmptyString('courriel');
-
+            
         $validator
             ->requirePresence('mdp', 'create')
             ->notEmptyString('mdp');
@@ -76,6 +70,14 @@ class UtilisateurTable extends Table
             ->uuid('sel')
             ->requirePresence('sel', 'create')
             ->notEmptyString('sel');
+
+        $validator
+            ->scalar('email')
+            ->maxLength('email', 100)
+            ->requirePresence('email', 'email')
+            ->notEmptyString('email');
+
+
 
         return $validator;
     }
@@ -89,7 +91,7 @@ class UtilisateurTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->isUnique(['noUtilisateur']), ['errorField' => 'noUtilisateur']);
+        $rules->add($rules->isUnique(['idUtilisateur']), ['errorField' => 'idUtilisateur']);
 
         return $rules;
     }

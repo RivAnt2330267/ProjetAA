@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Utilisateur $utilisateur
+ * @var \App\Model\Entity\Users $users
  */
 ?>
 <div class="row">
@@ -10,21 +10,21 @@
             <h4 class="heading"><?= __('Actions') ?></h4>
             <?= $this->Form->postLink(
                 __('Delete'),
-                ['action' => 'delete', $utilisateur->noUtilisateur],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $utilisateur->noUtilisateur), 'class' => 'side-nav-item']
+                ['action' => 'delete', $users->IdUsers],
+                ['confirm' => __('Are you sure you want to delete # {0}?', $users->IdUsers), 'class' => 'side-nav-item']
             ) ?>
-            <?= $this->Html->link(__('List Utilisateur'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
+            <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
         </div>
     </aside>
     <div class="column column-80">
-        <div class="utilisateur form content">
-            <?= $this->Form->create($utilisateur) ?>
+        <div class="users form content">
+            <?= $this->Form->create($users) ?>
             <fieldset>
-                <legend><?= __('Edit Utilisateur') ?></legend>
+                <legend><?= __('Edit Users') ?></legend>
                 <?php
                     echo $this->Form->control('nomUtilisateur');
                     echo $this->Form->control('prenomUtilisateur');
-                    echo $this->Form->control('courriel');
+                    echo $this->Form->control('email');
                     echo $this->Form->control('sel');
                 ?>
             </fieldset>

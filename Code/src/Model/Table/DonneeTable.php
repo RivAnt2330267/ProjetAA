@@ -37,9 +37,9 @@ class OrientationmoteurTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('orientationmoteur');
-        $this->setDisplayField('noPosition');
-        $this->setPrimaryKey('noPosition');
+        $this->setTable('donnee');
+        $this->setDisplayField('donneeId');
+        $this->setPrimaryKey('donneeId');
     }
 
     /**
@@ -51,9 +51,16 @@ class OrientationmoteurTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->integer('position')
-            ->requirePresence('position', 'create')
-            ->notEmptyString('position');
+            ->integer('time')
+            ->requirePresence('time', 'create')
+            ->notEmptyString('time');
+
+        return $validator;
+
+        $validator
+            ->integer('temperature')
+            ->requirePresence('temperature', 'create')
+            ->notEmptyString('temperature');
 
         return $validator;
     }
